@@ -1,20 +1,24 @@
 figma.showUI(__html__);
 
 // let designData;
-
+let image_list: Array<string> = [];
 figma.ui.onmessage = (msg) => {
   //   console.log(msg.type, msg.data);
   if (msg.type === "generate") {
+    image_list = msg.data.image_list;
     createDesign(msg.data.data);
+    console.log(image_list);
   }
 };
 
 // const frame = figma.createFrame();
 
 // frame.name = "Frame";
+console.log("image_links", image_list);
 
-function createDesign(data: any[]) {
-  data.forEach(async (element) => {
+async function createDesign(data: any[]) {
+  let idx = 0;
+  for (const element of data) {
     let figmaNode: SceneNode;
     if (element.type === "RECTANGLE") {
       figmaNode = figma.createRectangle();
@@ -25,11 +29,11 @@ function createDesign(data: any[]) {
       figmaNode.setPluginData("customNodeId", element.id);
       figmaNode.fills = element.fills;
       figmaNode.cornerRadius = element.cornerRadius;
+
       if (element.name.includes("Image")) {
+        console.log("setting image ", idx, image_list[idx]);
         figma
-          .createImageAsync(
-            "https://cdn.pixabay.com/photo/2021/07/19/04/36/woman-6477171_1280.jpg"
-          )
+          .createImageAsync(image_list[idx])
           .then(async (image: Image) => {
             // Render the image by filling the rectangle.
             if ("fills" in figmaNode) {
@@ -40,8 +44,14 @@ function createDesign(data: any[]) {
                   scaleMode: "FILL",
                 },
               ];
+
+              console.log("image setted ", idx);
             }
+          })
+          .catch((err) => {
+            console.log(err);
           });
+        idx++;
       }
       //   frame.appendChild(figmaNode);
     } else if (element.type === "TEXT") {
@@ -69,7 +79,7 @@ function createDesign(data: any[]) {
       figmaNode.setPluginData("customNodeId", element.id);
       //   frame.appendChild(figmaNode);
     }
-  });
+  }
   //   figma.viewport.scrollAndZoomIntoView(frame.children);
   //   figma.group([frame], figma.currentPage);
   //   const minX = Math.min(...data.map((node) => node.x));

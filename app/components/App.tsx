@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import data from '../Design1';
+// import data from "../Design1";
 const App: React.FC = () => {
   // const [data, setData] = useState([]);
   const [companyType, setCompanyType] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const apiUrl = "https://jsonplaceholder.typicode.com/todos/1";
   const handleGenerate = () => {
-    // parent.postMessage({ pluginMessage: { type: 'generate', data } }, '*');
+    // parent.postMessage({ pluginMessage: { type: "generate", data } }, "*");
     const fetchData = async () => {
       try {
         setLoading(true);
