@@ -29,8 +29,29 @@ async function createDesign(data: any[]) {
       figmaNode.setPluginData("customNodeId", element.id);
       figmaNode.fills = element.fills;
       figmaNode.cornerRadius = element.cornerRadius;
+      if (element.name === "IMAGENODE") {
+        console.log("setting background image ", idx, image_list[idx]);
+        figma
+          .createImageAsync(image_list[idx])
+          .then(async (image: Image) => {
+            // Render the image by filling the rectangle.
+            if ("fills" in figmaNode) {
+              figmaNode.fills = [
+                {
+                  type: "IMAGE",
+                  imageHash: image.hash,
+                  scaleMode: "FILL",
+                },
+              ];
 
-      if (element.name.includes("Image")) {
+              console.log("background image setted ", idx);
+            }
+          })
+          .catch((err) => {
+            console.log("ERROR setting bg image", err);
+          });
+        idx++;
+      } else if (element.name.includes("Image")) {
         console.log("setting image ", idx, image_list[idx]);
         figma
           .createImageAsync(image_list[idx])
