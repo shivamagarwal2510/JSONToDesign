@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./style.css";
 // import data from "../Design1";
 const App: React.FC = () => {
   const [companyType, setCompanyType] = useState("");
@@ -55,7 +56,7 @@ const App: React.FC = () => {
   // console.log("--data--", data);
   return (
     <div>
-      <h1>Click to generate design</h1>
+      {/* <h1>Click to generate design</h1>
       <input
         onChange={handleCompanyType}
         placeholder="Enter the company type"
@@ -66,7 +67,32 @@ const App: React.FC = () => {
       ></input>
       <button onClick={handleGenerate} disabled={loading}>
         {loading ? "Generating..." : "Generate"}
-      </button>
+      </button> */}
+      <center>
+        <div className="container">
+          <h1>PROMPT2UI</h1>
+          <h4>Generate UI landing pages with a single prompt</h4>
+          <form>
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Industry type"
+              onChange={handleCompanyType}
+            />
+            <br />
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Company Name"
+              onChange={handleCompanyName}
+            />
+            <br />
+            <button className="btn" onClick={handleGenerate} disabled={loading}>
+              ✨ Generate
+            </button>
+          </form>
+        </div>
+      </center>
     </div>
   );
 };

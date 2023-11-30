@@ -1,4 +1,7 @@
-figma.showUI(__html__);
+figma.showUI(__html__, {
+  width: 300,
+  height: 500,
+});
 
 // let designData;
 let image_list: Array<string> = [];
